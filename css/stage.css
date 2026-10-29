@@ -1,0 +1,357 @@
+/* ==========================================================================
+   STAGE & COGNITIVE VISUALIZER
+   Bear Mascot, Ice Cream Bowl Stack, HUD, Code Stepping & Memory Boxes
+   ========================================================================== */
+
+/* Right Panel: Ice Cream Shop Stage */
+.shop {
+  background: linear-gradient(180deg, #ffdde8 0%, #fff5eb 68%, #f3d5b5 68%, #e6be94 100%);
+  border: 3px solid #f5c2d1;
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Top Order Ticket Bar */
+.shop-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 2px solid #f9a8d4;
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+  margin-bottom: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#order {
+  font-weight: 700;
+  font-size: 0.86rem;
+  color: var(--ink-dark);
+  text-align: left;
+}
+
+.target-preview-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--ink-muted);
+  background: #fff8f1;
+  padding: 2px 8px;
+  border-radius: 8px;
+  border: 1.5px dashed #f3c4d2;
+}
+
+#target-mini {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.mini-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0, 0, 0, 0.25);
+  display: inline-block;
+}
+
+/* Stage Arena: Bear Mascot + Active Bowl + Thought Cloud */
+.stage-arena {
+  display: grid;
+  grid-template-columns: 115px 1fr 130px;
+  align-items: end;
+  height: 185px;
+  position: relative;
+}
+
+/* Animated SVG Customer Bear */
+.bear-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  padding-bottom: 6px;
+}
+
+#bear-svg {
+  width: 102px;
+  height: 112px;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.12));
+}
+
+.bear-bounce {
+  animation: bearJump 0.55s ease infinite alternate;
+}
+
+@keyframes bearJump {
+  from { transform: translateY(0) scale(1); }
+  to { transform: translateY(-8px) scale(1.04); }
+}
+
+/* Center Serving Bowl Stack */
+#bowl {
+  height: 180px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: flex-start;
+  padding-bottom: 4px;
+  position: relative;
+  z-index: 2;
+}
+
+.cup-svg-wrap {
+  width: 96px;
+  height: 48px;
+  margin-top: -10px;
+  z-index: 3;
+  filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.15));
+}
+
+.scoop-item {
+  width: 74px;
+  height: 40px;
+  margin-bottom: -13px;
+  position: relative;
+  z-index: 2;
+  animation: scoopDrop 0.38s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.15));
+}
+
+.sauce-item {
+  width: 68px;
+  height: 16px;
+  margin-bottom: -8px;
+  z-index: 3;
+  animation: scoopDrop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.topping-item {
+  font-size: 1.55rem;
+  line-height: 1;
+  margin-bottom: -4px;
+  z-index: 4;
+  animation: scoopDrop 0.38s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.2));
+}
+
+@keyframes scoopDrop {
+  0% {
+    transform: translateY(-55px) scale(0.4);
+    opacity: 0;
+  }
+  70% {
+    transform: translateY(4px) scale(1.08, 0.92);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Right Side Cognitive HUD (Loop Counter & Thought Bubble) */
+.cognitive-hud {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 100%;
+  padding-bottom: 12px;
+}
+
+#bubble {
+  background: #fff;
+  border: 2.5px solid var(--ink-dark);
+  border-radius: 16px;
+  padding: 6px 10px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--ink-dark);
+  min-height: 2.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s, background 0.2s;
+  width: 100%;
+}
+
+#bubble.pop {
+  transform: scale(1.08);
+  background: #fef9c3;
+}
+
+#loop-dial {
+  background: #ede9fe;
+  border: 2px solid #8b5cf6;
+  color: #5b21b6;
+  border-radius: 12px;
+  padding: 4px 8px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-align: center;
+  width: 100%;
+}
+
+/* Code Stepping Tracer View */
+#view {
+  max-height: 135px;
+  overflow: auto;
+  border-radius: var(--radius-sm);
+  padding: 6px 0;
+  margin-top: 8px;
+  background: var(--code-bg);
+  color: var(--code-ink);
+  font: 500 0.86rem/1.5 var(--font-code);
+  white-space: pre;
+  flex-shrink: 0;
+  border: 2px solid #4a3052;
+}
+
+.ln {
+  display: flex;
+  align-items: center;
+  padding: 1px 10px;
+  border-left: 4px solid transparent;
+  transition: background 0.15s;
+}
+
+.ln i {
+  color: #a78bfa;
+  width: 2.2em;
+  flex: none;
+  font-style: normal;
+  font-size: 0.8rem;
+}
+
+.ln.hl {
+  background: var(--code-hl);
+  border-left-color: var(--code-hl-border);
+}
+
+.ln.hl i::before {
+  content: "👉 ";
+}
+
+/* Cognitive Explanation Banner */
+#expl {
+  margin-top: 8px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  background: #fffbeb;
+  border: 2px solid #fde68a;
+  color: #78350f;
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-height: 2.6em;
+  display: flex;
+  align-items: center;
+  line-height: 1.35;
+}
+
+/* Memory Boxes (Variables Inspector) */
+.memory-section {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.memory-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+#vars {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.mem-box {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid var(--ink-dark);
+  font: 600 0.8rem var(--font-code);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.12);
+  animation: memPulse 0.3s ease;
+}
+
+.mem-key {
+  background: var(--ink-dark);
+  color: #fde047;
+  padding: 2px 7px;
+}
+
+.mem-val {
+  background: #fff;
+  color: var(--ink-dark);
+  padding: 2px 8px;
+}
+
+@keyframes memPulse {
+  0% { transform: scale(0.9); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* Test Case Result Chips */
+#res {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.chip {
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  font: 500 0.8rem var(--font-code);
+  overflow-wrap: anywhere;
+}
+
+.chip.pass {
+  background: #f0fdf4;
+  border-color: #86efac;
+  color: #14532d;
+}
+
+.chip.fail {
+  background: #fef2f2;
+  border-color: #fca5a5;
+  color: #7f1d1d;
+}
+
+/* Legend Footer */
+.leg {
+  margin-top: auto;
+  padding-top: 8px;
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+  border-top: 1.5px dashed var(--panel-border);
+}

@@ -1,0 +1,10 @@
+/* ==========================================================================
+   CODECREAM PYTHON - MASTER STYLESHEET
+   Aggregates modular stylesheets for layout, editor, stage, and modal dialogs.
+   ========================================================================== */
+
+@import "variables.css";
+@import "layout.css";
+@import "editor.css";
+@import "stage.css";
+@import "modal.css";

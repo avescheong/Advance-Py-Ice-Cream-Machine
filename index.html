@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CodeCream Python · Customer Bear’s Ice Cream Academy</title>
+  
+  <!-- Google Fonts for playful kid-friendly UI and clear code readability -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500;600;700&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Standalone Modular Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       HEADER: TITLE, PROGRESS BAR, SOUND TOGGLE & LEVEL TABS
+       ========================================================================== -->
+  <header>
+    <div class="header-top">
+      <div class="brand">
+        <h1>🍦 CodeCream Python</h1>
+        <span class="brand-sub">🐻 Customer Bear’s Coding Parlor</span>
+      </div>
+      <div class="header-controls">
+        <div class="pg">
+          <span id="pt">Progress: 0</span>
+          <div class="tr"><div id="pf"></div></div>
+        </div>
+        <button class="hdr-btn" id="btn-guide" type="button">📖 Recipe Book</button>
+        <button class="hdr-btn" id="btn-sound" type="button" aria-label="Toggle sound">🔊 Sound: ON</button>
+      </div>
+    </div>
+    <div id="tabs" role="tablist" aria-label="Lesson Levels"></div>
+  </header>
+
+  <!-- ==========================================================================
+       MAIN WORKSPACE: LEFT (MISSION + EDITOR) | RIGHT (ANIMATED STAGE + TRACER)
+       ========================================================================== -->
+  <main>
+    <!-- LEFT PANEL: LESSON INSTRUCTIONS, INTERACTIVE CHECKLIST & CODE EDITOR -->
+    <section class="panel" aria-label="Coding Mission Panel">
+      <div class="mission-header">
+        <span class="tag" id="tag">📘 Concept</span>
+        <span class="goal-pill" id="goal-pill">🎯 Goal: Match Bear's Order</span>
+      </div>
+      <h2 id="title">Lesson Title</h2>
+      <p class="task" id="task"></p>
+
+      <!-- Live Interactive Mission Checklist (Auto-checks as kid types!) -->
+      <div class="mission-steps" id="checklist-box">
+        <div class="mission-steps-title">
+          <span>🧭 Mission Checklist (updates as you type!)</span>
+          <span id="checklist-status">0/0 ready</span>
+        </div>
+        <ul class="step-list" id="checklist-items"></ul>
+      </div>
+
+      <!-- Think First + Progressive Hints + Reset Starter -->
+      <div class="guidance-row">
+        <details id="th">
+          <summary>🧠 How Python Thinks (Click to open)</summary>
+          <div id="thb"></div>
+        </details>
+        <button class="hb" id="hint" type="button">💡 Hint 1: Concept clue</button>
+        <button class="reset-btn" id="reset-code" type="button" title="Reset code to starter template">↺ Reset</button>
+      </div>
+      <pre id="hp" hidden></pre>
+
+      <!-- Code Editor with Line Gutter -->
+      <div class="editor-wrap" id="editor-wrap">
+        <div class="editor-gutter" id="gutter">1</div>
+        <textarea id="code" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" aria-label="Type your Python code here"></textarea>
+      </div>
+
+      <!-- Quick-Insert Python Blocks Toolbar (Dynamically populated from AppConfig) -->
+      <div id="keys"></div>
+
+      <!-- Primary Run & Next Level Buttons -->
+      <div class="row">
+        <button class="btn-primary" id="run" type="button">▶ Serve &amp; Watch Step-by-Step</button>
+        <button id="next" type="button" hidden>Next Level ➜</button>
+      </div>
+      <div class="msg" id="msg" role="status" aria-live="polite"></div>
+    </section>
+
+    <!-- RIGHT PANEL: ANIMATED SHOP STAGE, STEPPING CODE VIEW & MEMORY INSPECTOR -->
+    <section class="panel" aria-label="Ice Cream Shop & Cognitive Visualizer">
+      <div class="shop">
+        <!-- Order Ticket & Mini Target Preview -->
+        <div class="shop-top-bar">
+          <div id="order">🐻 Bear wants: ...</div>
+          <div class="target-preview-wrap" id="target-wrap">
+            <span>Goal Stack:</span>
+            <div id="target-mini"></div>
+          </div>
+        </div>
+
+        <!-- Visual Stage: Customer Bear SVG + Sundae Bowl + Thought Cloud -->
+        <div class="stage-arena">
+          <div class="bear-box">
+            <svg id="bear-svg" viewBox="0 0 120 130" aria-label="Customer Bear">
+              <!-- Ears -->
+              <circle cx="28" cy="30" r="16" fill="#8d5524"/>
+              <circle cx="28" cy="30" r="9" fill="#e0ac69"/>
+              <circle cx="92" cy="30" r="16" fill="#8d5524"/>
+              <circle cx="92" cy="30" r="9" fill="#e0ac69"/>
+              <!-- Chef / Shop Hat -->
+              <path d="M40 20 C40 6, 80 6, 80 20 Z" fill="#ffffff" stroke="#f3c4d2" stroke-width="2.5"/>
+              <rect x="36" y="18" width="48" height="6" rx="3" fill="#ff5d8f"/>
+              <!-- Head -->
+              <circle cx="60" cy="60" r="36" fill="#a6632c"/>
+              <!-- Rosy Cheeks -->
+              <ellipse cx="36" cy="66" rx="7" ry="4.5" fill="#ff8fab" opacity="0.75"/>
+              <ellipse cx="84" cy="66" rx="7" ry="4.5" fill="#ff8fab" opacity="0.75"/>
+              <!-- Snout -->
+              <ellipse cx="60" cy="68" rx="16" ry="13" fill="#f1c27d"/>
+              <ellipse cx="60" cy="62" rx="6.5" ry="4.5" fill="#3d2214"/>
+              <!-- Dynamic Eyes & Mouth Group (Updated by JS for moods!) -->
+              <g id="bear-face-expr">
+                <circle cx="45" cy="52" r="4.5" fill="#2b1708"/>
+                <circle cx="43.5" cy="50.5" r="1.5" fill="#fff"/>
+                <circle cx="75" cy="52" r="4.5" fill="#2b1708"/>
+                <circle cx="73.5" cy="50.5" r="1.5" fill="#fff"/>
+                <path d="M53 71 Q60 77 67 71" fill="none" stroke="#3d2214" stroke-width="3" stroke-linecap="round"/>
+              </g>
+              <!-- Body & Bowtie -->
+              <path d="M30 125 C30 92, 90 92, 90 125 Z" fill="#8d5524"/>
+              <polygon points="60,98 48,92 48,104" fill="#ff5d8f"/>
+              <polygon points="60,98 72,92 72,104" fill="#ff5d8f"/>
+              <circle cx="60" cy="98" r="4" fill="#fde047"/>
+            </svg>
+          </div>
+
+          <!-- Active Ice Cream Bowl -->
+          <div id="bowl" aria-label="Ice Cream Bowl"></div>
+
+          <!-- Cognitive Thought Cloud & Loop Counter -->
+          <div class="cognitive-hud">
+            <div id="bubble">👋 Ready to code!</div>
+            <div id="loop-dial" hidden>🔁 Round 0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Highlighted Execution Trace View -->
+      <div id="view" hidden></div>
+
+      <!-- Kid-Friendly Step Explanation Banner -->
+      <div id="expl">Press “Serve &amp; Watch” to see Python run your recipe one line at a time!</div>
+
+      <!-- Playback Controls during Step Mode -->
+      <div class="row" id="stepbar" hidden style="margin-top:8px">
+        <button id="step" type="button">Next step ▶</button>
+        <button class="sec" id="auto-play" type="button">⏯ Auto-Play</button>
+        <button class="sec" id="skip" type="button">⏭ Skip to results</button>
+        <button class="sec" id="edit" type="button">✏️ Edit code</button>
+      </div>
+
+      <!-- Live Memory Boxes (Variables Inspector) -->
+      <div class="memory-section">
+        <span class="memory-label">📦 Memory Boxes:</span>
+        <div id="vars"></div>
+      </div>
+
+      <!-- Test Cases Output -->
+      <div id="res"></div>
+
+      <!-- Bottom Command Reference Legend -->
+      <div class="leg">
+        <span>🍨 <b>scoop("vanilla")</b></span>
+        <span>🥜 <b>topping("nuts")</b></span>
+        <span>🍫 <b>sauce("chocolate")</b></span>
+        <span>💡 Shortcut: <b>Ctrl + Enter</b> to Run</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================================================
+       MODAL: KID-FRIENDLY PYTHON RECIPE BOOK (CHEAT SHEET)
+       Cards dynamically populated from AppConfig.cheatSheetCards
+       ========================================================================== -->
+  <div class="modal-backdrop" id="guide-modal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="guide-title">
+      <h3 id="guide-title">
+        <span>📖 Python Ice Cream Recipe Book</span>
+        <button class="sec" id="close-guide" type="button">✖ Close</button>
+      </h3>
+      <div class="recipe-grid"></div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       JAVASCRIPT ARCHITECTURE & EXTENSIBLE LOADER
+       Modular subsystem loading in clean sequence.
+       ========================================================================== -->
+  <!-- 1. Central Configuration & Settings -->
+  <script src="js/config.js"></script>
+
+  <!-- 2. Core Audio, Graphics, Parser & Curriculum Infrastructure -->
+  <script src="js/audio.js"></script>
+  <script src="js/graphics.js"></script>
+  <script src="js/parser.js"></script>
+  <script src="js/curriculum.js"></script>
+
+  <!-- 3. Curriculum Modules (Add new module scripts here!) -->
+  <script src="js/modules/module1-basics.js"></script>
+  <script src="js/modules/module2-logic.js"></script>
+  <script src="js/modules/module3-lists.js"></script>
+  <script src="js/modules/module4-while.js"></script>
+  <!-- <script src="js/modules/module5-custom.js"></script> -->
+
+  <!-- 4. Application Controller & Interactive Visualizer -->
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+/* ==========================================================================
+   DESIGN TOKENS & BASE STYLES
+   Ice Cream Parlor Color Palette, Typography & Global Resets
+   ========================================================================== */
+
+:root {
+  /* Theme Colors - Ice Cream Parlor Palette */
+  --bg-cream: #fff6ec;
+  --bg-dots: #ffe4ee;
+  --panel-bg: #ffffff;
+  --panel-border: #f3c4d2;
+  --ink-dark: #3d2214;
+  --ink-muted: #7d5a48;
+  --accent-pink: #ff5d8f;
+  --accent-pink-dark: #d83a6c;
+  --accent-mint: #10b981;
+  --accent-mint-dark: #059669;
+  --accent-blue: #3b82f6;
+  --accent-blue-dark: #1d4ed8;
+  --accent-gold: #f59e0b;
+  --accent-gold-light: #fef3c7;
+  --accent-purple: #8b5cf6;
+
+  /* Code Editor Palette */
+  --code-bg: #231626;
+  --code-gutter: #36223b;
+  --code-ink: #fdf2f8;
+  --code-hl: rgba(250, 204, 21, 0.25);
+  --code-hl-border: #facc15;
+
+  /* Typography & Radii */
+  --font-ui: "Fredoka", "Trebuchet MS", system-ui, sans-serif;
+  --font-code: "Fira Code", "Consolas", "Courier New", monospace;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-cream);
+  background-image: radial-gradient(var(--bg-dots) 2px, transparent 2px);
+  background-size: 22px 22px;
+  color: var(--ink-dark);
+  font-family: var(--font-ui);
+  font-weight: 500;
+}
